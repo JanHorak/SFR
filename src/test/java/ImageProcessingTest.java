@@ -9,6 +9,7 @@ import static org.hamcrest.CoreMatchers.is;
 import org.hamcrest.core.IsNull;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -18,10 +19,19 @@ public class ImageProcessingTest {
     
     @Test
     public void build1DArrayFromImage(){
-        String pathToImage = getClass().getClassLoader().getResource("testimages/iu.jpeg").getFile();
+        String pathToImage = getClass().getClassLoader().getResource("testimages/pic1_500x600.png").getFile();
         assertThat(pathToImage, IsNull.notNullValue());
         int[] array = new ImageTransformer().getPixelArray(pathToImage);
-        assertThat(array.length, is(1024*768));
+        assertThat(array.length, is(ImageTransformer.IMAGE_MAX_HEIGHT*ImageTransformer.IMAGE_MAX_WIDTH));
+    }
+    
+    @Test
+    public void buildImageMatrixFromFolder(){
+        String pathToImage = getClass().getClassLoader().getResource("testimages/").getFile();
+        assertThat(pathToImage, IsNull.notNullValue());
+        int[][] imageMatrix = new ImageTransformer().getImageMatrix(pathToImage);
+        assertThat(imageMatrix.length, is(3));
+        assertThat(imageMatrix[0].length, is(ImageTransformer.IMAGE_MAX_HEIGHT*ImageTransformer.IMAGE_MAX_WIDTH));
     }
     
 }
